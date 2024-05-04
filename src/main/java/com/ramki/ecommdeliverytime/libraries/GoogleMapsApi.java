@@ -1,6 +1,8 @@
-package com.ramki.ecommdeliverytime.libraries.models;
+package com.ramki.ecommdeliverytime.libraries;
 
 import java.util.Random;
+
+import com.ramki.ecommdeliverytime.libraries.models.GLocation;
 
 import lombok.Data;
 

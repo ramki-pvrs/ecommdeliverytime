@@ -4,12 +4,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.ramki.ecommdeliverytime.exceptions.AddressNotFoundException;
 import com.ramki.ecommdeliverytime.exceptions.ProductNotFoundException;
+import com.ramki.ecommdeliverytime.libraries.GoogleMapsApi;
 import com.ramki.ecommdeliverytime.libraries.models.GLocation;
-import com.ramki.ecommdeliverytime.libraries.models.GoogleMapsApi;
 import com.ramki.ecommdeliverytime.models.Address;
 import com.ramki.ecommdeliverytime.models.DeliveryHub;
+import com.ramki.ecommdeliverytime.models.Product;
 import com.ramki.ecommdeliverytime.models.Seller;
 import com.ramki.ecommdeliverytime.repositories.AddressRepository;
 import com.ramki.ecommdeliverytime.repositories.DeliveryHubRepository;
@@ -17,6 +20,8 @@ import com.ramki.ecommdeliverytime.repositories.ProductRepository;
 import com.ramki.ecommdeliverytime.repositories.SellerRepository;
 import com.ramki.ecommdeliverytime.repositories.UserRepository;
 
+
+@Service
 public class ProductServiceImpl implements ProductService {
     
     private SellerRepository sellerRepository;
@@ -39,6 +44,7 @@ public class ProductServiceImpl implements ProductService {
         this.deliveryHubRepository = deliveryHubRepository;
         this.userRepository = userRepository;
         this.addressRepository = addressRepository;
+        this.productRepository = productRepository;
     }
 
 
@@ -75,13 +81,17 @@ public class ProductServiceImpl implements ProductService {
         }
         Address userAddress = userAddressOptional.get();
         
-        Optional<Seller> sellerOptional = sellerRepository.findByProductId(productId);
-        if(sellerOptional.isEmpty()) {
-            throw new ProductNotFoundException("No seller for given product id");
-        }
-        Seller seller = sellerOptional.get();
+        Optional<Product> productOptional = productRepository.findById(productId);
         
-        Optional<DeliveryHub> deliveryHubOptional = deliveryHubRepository.findByZipCode(seller.getAddress().getZipCode());
+        if(productOptional.isEmpty()) {
+            throw new ProductNotFoundException("for given productId, no product found");
+        }
+        
+        Product product = productOptional.get();
+        
+        Seller seller = product.getSeller();
+        
+        Optional<DeliveryHub> deliveryHubOptional = deliveryHubRepository.findByAddress_ZipCode(seller.getAddress().getZipCode());
         
         if(deliveryHubOptional.isEmpty()) {
             throw new AddressNotFoundException("No delivery hub in given product id - seller - seller address zip code");

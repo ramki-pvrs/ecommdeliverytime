@@ -3,15 +3,14 @@ package com.ramki.ecommdeliverytime.controllers;
 import java.sql.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import com.ramki.ecommdeliverytime.dtos.DeliveryEstimateRequestDto;
 import com.ramki.ecommdeliverytime.dtos.DeliveryEstimateResponseDto;
 import com.ramki.ecommdeliverytime.dtos.ResponseStatus;
 import com.ramki.ecommdeliverytime.services.ProductService;
 
-import lombok.Data;
-
-@Data
+@Controller
 public class ProductController {
     
     /*

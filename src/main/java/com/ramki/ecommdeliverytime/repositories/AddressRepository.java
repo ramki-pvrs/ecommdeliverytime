@@ -9,8 +9,5 @@ import com.ramki.ecommdeliverytime.models.Address;
 
 //@Repository Unnecessary `@Repository`
 public interface AddressRepository extends JpaRepository<Address, Integer> {
-    
     Optional<Address> findById(int id);
-    
-    
 }
