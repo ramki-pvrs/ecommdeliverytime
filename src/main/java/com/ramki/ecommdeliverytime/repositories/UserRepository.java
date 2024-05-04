@@ -14,4 +14,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     //The @EntityGraph annotation helps to optimize the fetching strategy when retrieving related entities. 
     @EntityGraph(attributePaths = "addresses")
     Optional<User> findByAddresses_Id(int addressId);
+    
+    //List<EntityA> findByListOfItemsContaining(String itemValue);
 }

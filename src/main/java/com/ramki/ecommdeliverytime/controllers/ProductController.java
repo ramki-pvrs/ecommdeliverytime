@@ -1,6 +1,6 @@
 package com.ramki.ecommdeliverytime.controllers;
 
-import java.sql.Date;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,8 +32,8 @@ public class ProductController {
         DeliveryEstimateResponseDto responseDto = new DeliveryEstimateResponseDto();
         
         try {
-            Date expectedDate = (Date)productService.estimateDeliveryDate(requestDto.getProductId(), requestDto.getAddressId());
-            responseDto.setExpectedDeliveryDate(expectedDate);
+            Date estimateDeliveryDate  = (Date)productService.estimateDeliveryDate(requestDto.getProductId(), requestDto.getAddressId());
+            responseDto.setExpectedDeliveryDate(estimateDeliveryDate );
             responseDto.setResponseStatus(ResponseStatus.SUCCESS);
             return responseDto;
         } catch(Exception ex) {
